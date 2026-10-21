@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Panel · SC Fragrances</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="admin">
+
+  <!-- Acceso -->
+  <section class="login" id="login">
+    <form class="login__card" id="loginForm">
+      <p class="eyebrow" style="margin:0">Panel privado</p>
+      <h1>Tu <em>panel.</em></h1>
+      <p id="loginMsg">Escribe tu contraseña para editar la tienda.</p>
+      <label class="field"><span>Contraseña</span><input type="password" id="pw" autocomplete="current-password" required></label>
+      <label class="field" id="pw2Wrap" hidden><span>Repite la contraseña</span><input type="password" id="pw2" autocomplete="new-password"></label>
+      <p class="login__err" id="loginErr"></p>
+      <button class="btn btn--dark btn--block" type="submit" id="loginBtn">Entrar</button>
+      <a class="link-btn" href="index.html" style="align-self:center">← Volver a la tienda</a>
+    </form>
+  </section>
+
+  <!-- Panel -->
+  <div class="admin-shell" id="app" hidden>
+    <header class="admin-top">
+      <a class="logo" href="index.html" id="aLogo">SC <em>Fragrances</em></a>
+      <span class="pill">Panel</span>
+      <div class="admin-top__actions">
+        <a class="btn btn--ghost btn--sm" href="index.html?preview=1" target="_blank">Vista previa</a>
+        <button class="btn btn--dark btn--sm" id="downloadTop">Descargar productos.js</button>
+        <button class="btn btn--sm btn--ghost" id="logout">Salir</button>
+      </div>
+    </header>
+
+    <div class="status" id="status"></div>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab is-active" data-tab="productos">Perfumes</button>
+      <button class="tab" data-tab="config">Tienda y contacto</button>
+      <button class="tab" data-tab="publicar">Publicar y respaldos</button>
+    </nav>
+
+    <!-- Perfumes -->
+    <section data-panel="productos">
+      <div class="admin-bar">
+        <label class="search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="search" id="aq" placeholder="Buscar en tus perfumes…">
+        </label>
+        <select id="aBrand" aria-label="Filtrar marca"><option value="">Todas las marcas</option></select>
+        <button class="btn btn--dark btn--sm" id="newProduct">+ Nuevo perfume</button>
+      </div>
+      <p class="muted small" id="aCount"></p>
+      <div class="plist" id="plist"></div>
+    </section>
+
+    <!-- Configuración -->
+    <section data-panel="config" hidden>
+      <form class="panel form" id="cfgForm">
+        <h2 class="full">Tu tienda</h2>
+        <label class="field"><span>Nombre de la tienda</span><input name="tienda" required></label>
+        <label class="field"><span>Eslogan (título grande)</span><input name="eslogan"><small>Usa comas para el estilo: “Tu esencia, tu historia, tu perfume.”</small></label>
+        <label class="field full"><span>Texto de presentación</span><textarea name="subtitulo" rows="2"></textarea></label>
+        <label class="field full"><span>Barra de avisos (sepáralos con ·)</span><input name="aviso"></label>
+        <label class="field full"><span>Información de envío y pago</span><textarea name="envio" rows="2"></textarea></label>
+
+        <h2 class="full" style="margin-top:12px">Contacto</h2>
+        <label class="field"><span>WhatsApp (10 dígitos)</span><input name="whatsapp" inputmode="tel"></label>
+        <label class="field"><span>Código de país</span><input name="codigoPais" inputmode="numeric"><small>México = 52</small></label>
+        <label class="field"><span>Correo de quejas y sugerencias</span><input name="correo" type="email"></label>
+        <label class="field"><span>Instagram (sin @)</span><input name="instagram"></label>
+        <label class="field"><span>Moneda</span><input name="moneda" maxlength="3"><small>MXN, USD…</small></label>
+
+        <div class="full row-actions"><button class="btn btn--dark" type="submit">Guardar cambios</button></div>
+      </form>
+
+      <form class="panel form" id="pwForm">
+        <h2 class="full">Cambiar contraseña</h2>
+        <label class="field"><span>Nueva contraseña</span><input type="password" id="npw" autocomplete="new-password" minlength="6" required></label>
+        <label class="field"><span>Repítela</span><input type="password" id="npw2" autocomplete="new-password" minlength="6" required></label>
+        <div class="full row-actions"><button class="btn btn--dark" type="submit">Actualizar contraseña</button></div>
+      </form>
+    </section>
+
+    <!-- Publicar -->
+    <section data-panel="publicar" hidden>
+      <div class="panel">
+        <h2>Publicar tus cambios</h2>
+        <p>Lo que editas aquí se guarda como <strong>borrador en este navegador</strong>. Tus clientes no lo ven hasta que lo publicas:</p>
+        <ol>
+          <li>Revisa todo con <strong>Vista previa</strong>.</li>
+          <li>Pulsa <strong>Descargar productos.js</strong>.</li>
+          <li>Reemplaza el archivo <code>data/productos.js</code> de tu sitio con el que descargaste (en GitHub: abre la carpeta <code>data</code> → <em>Add file → Upload files</em>).</li>
+          <li>En uno o dos minutos tu tienda mostrará los cambios.</li>
+        </ol>
+        <div class="row-actions">
+          <button class="btn btn--dark" id="download">Descargar productos.js</button>
+          <a class="btn btn--ghost" href="index.html?preview=1" target="_blank">Vista previa</a>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Respaldos</h2>
+        <p>Guarda una copia de tu catálogo o restaura una anterior.</p>
+        <div class="row-actions">
+          <button class="btn btn--ghost" id="exportJson">Exportar respaldo (.json)</button>
+          <label class="btn btn--ghost">Importar respaldo<input type="file" id="importJson" accept=".json,.js,application/json" hidden></label>
+          <button class="btn btn--danger" id="discard">Descartar borrador</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Editor de perfume -->
+  <dialog class="modal editor-modal" id="editor">
+    <button class="icon-btn modal__close" data-close aria-label="Cerrar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <form class="editor" id="editForm">
+      <h1 id="editTitle" style="margin-bottom:24px">Editar perfume</h1>
+      <div class="form">
+        <label class="field"><span>Nombre</span><input name="nombre" required></label>
+        <label class="field"><span>Marca</span><input name="marca" list="brandList" required><datalist id="brandList"></datalist></label>
+        <label class="field"><span>Género</span>
+          <select name="genero"><option>Hombre</option><option>Mujer</option><option>Unisex</option></select>
+        </label>
+        <div class="field"><span>Estado</span>
+          <div class="flags" style="padding-top:8px">
+            <label class="switch"><input type="checkbox" name="disponible"> Disponible</label>
+            <label class="switch"><input type="checkbox" name="destacado"> Destacado</label>
+            <label class="switch"><input type="checkbox" name="nuevo"> Nuevo</label>
+          </div>
+        </div>
+        <div class="field full"><span>Presentaciones y precios</span>
+          <div class="sizes-edit" id="sizesEdit"></div>
+          <button type="button" class="link-btn" id="addSize" style="align-self:flex-start;margin-top:4px">+ Agregar presentación (p. ej. “Frasco 100 ml”)</button>
+        </div>
+        <label class="field full"><span>Notas olfativas (separadas por comas)</span><textarea name="notas" rows="2"></textarea></label>
+        <label class="field full"><span>Descripción (opcional)</span><textarea name="descripcion" rows="2" placeholder="Ej. Inspirado en…, ideal para noche…"></textarea></label>
+        <div class="field full"><span>Imagen</span>
+          <div class="img-edit">
+            <img class="preview" id="imgPreview" alt="">
+            <div class="field">
+              <input name="imagen" placeholder="img/productos/mi-perfume.jpg o https://…">
+              <label class="btn btn--ghost btn--sm" style="align-self:flex-start">Subir foto desde tu dispositivo<input type="file" id="imgFile" accept="image/*" hidden></label>
+              <small>La foto se recorta a 4:5 y se comprime. Para muchas fotos nuevas, súbelas a la carpeta <code>img/productos</code> y escribe aquí su ruta.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="editor__foot">
+        <button type="button" class="btn btn--danger btn--sm" id="deleteProduct">Eliminar</button>
+        <span style="flex:1"></span>
+        <button type="button" class="btn btn--ghost btn--sm" data-close>Cancelar</button>
+        <button type="submit" class="btn btn--dark btn--sm">Guardar perfume</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="data/productos.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

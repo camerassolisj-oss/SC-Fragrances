@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SC Fragrances — Decants de perfumes originales</title>
+  <meta name="description" content="Decants de perfumes 100% originales en 5 ml y 10 ml. Compra fácil por WhatsApp.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='28' font-style='italic' fill='%23f4efe7' text-anchor='middle'%3ESC%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="preview-bar" id="previewBar" hidden>Vista previa del borrador · Solo tú ves esto · <a href="admin.html">Volver al panel</a></div>
+
+  <div class="announce" aria-label="Avisos"><div class="announce__track" id="announce"></div></div>
+
+  <header class="header" id="top">
+    <div class="header__inner">
+      <a href="#top" class="logo" id="logo">SC <em>Fragrances</em></a>
+      <nav class="nav" aria-label="Principal">
+        <a href="#catalogo">Catálogo</a>
+        <a href="#como-comprar">Cómo comprar</a>
+        <a href="#preguntas">Preguntas</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <div class="header__actions">
+        <button class="icon-btn" id="openSearch" aria-label="Buscar">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        </button>
+        <button class="icon-btn" id="openFavs" aria-label="Favoritos">
+          <svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9.2-9A5 5 0 0 1 12 6.3 5 5 0 0 1 21.2 11C19 15.6 12 20 12 20Z"/></svg>
+          <span class="badge" id="favCount" hidden>0</span>
+        </button>
+        <button class="icon-btn" id="openCart" aria-label="Carrito">
+          <svg viewBox="0 0 24 24"><path d="M5 8h14l-1.2 11.1a1 1 0 0 1-1 .9H7.2a1 1 0 0 1-1-.9L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <span class="badge" id="cartCount" hidden>0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero__text">
+        <p class="eyebrow">Decants · Perfumes originales</p>
+        <h1 class="hero__title" id="heroTitle">Tu esencia, <em>tu historia,</em> tu perfume.</h1>
+        <p class="hero__sub" id="heroSub"></p>
+        <div class="hero__cta">
+          <a href="#catalogo" class="btn btn--dark">Ver catálogo</a>
+          <a href="#" class="btn btn--ghost" id="heroWa">Pedir por WhatsApp</a>
+        </div>
+        <dl class="stats">
+          <div><dt id="statCount">0</dt><dd>fragancias</dd></div>
+          <div><dt>5 · 10<small>ml</small></dt><dd>presentaciones</dd></div>
+          <div><dt>100<small>%</small></dt><dd>originales</dd></div>
+        </dl>
+      </div>
+      <div class="hero__art" id="heroArt" aria-hidden="true"></div>
+    </section>
+
+    <section class="section" id="destacados-wrap">
+      <div class="section__head">
+        <h2 class="section__title">Los <em>favoritos</em> de la casa</h2>
+        <div class="scroller-nav">
+          <button class="icon-btn icon-btn--line" data-scroll="-1" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></svg></button>
+          <button class="icon-btn icon-btn--line" data-scroll="1" aria-label="Siguiente"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button>
+        </div>
+      </div>
+      <div class="scroller" id="featured"></div>
+    </section>
+
+    <section class="section" id="catalogo">
+      <div class="section__head section__head--stack">
+        <h2 class="section__title">Catálogo</h2>
+        <p class="muted" id="resultCount"></p>
+      </div>
+
+      <div class="toolbar">
+        <label class="search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="search" id="q" placeholder="Busca perfume, marca o nota…" autocomplete="off">
+        </label>
+        <div class="chips" id="genderChips" role="group" aria-label="Género">
+          <button class="chip is-active" data-g="">Todos</button>
+          <button class="chip" data-g="Hombre">Hombre</button>
+          <button class="chip" data-g="Mujer">Mujer</button>
+          <button class="chip" data-g="Unisex">Unisex</button>
+        </div>
+        <div class="selects">
+          <select id="brand" aria-label="Marca"><option value="">Todas las marcas</option></select>
+          <select id="note" aria-label="Nota olfativa"><option value="">Todas las notas</option></select>
+          <select id="sort" aria-label="Ordenar">
+            <option value="destacados">Destacados</option>
+            <option value="precio-asc">Precio: menor a mayor</option>
+            <option value="precio-desc">Precio: mayor a menor</option>
+            <option value="az">Nombre: A–Z</option>
+            <option value="nuevos">Novedades</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid" id="grid"></div>
+      <div class="empty" id="empty" hidden>
+        <p class="empty__title">No encontramos ese aroma.</p>
+        <p class="muted">Prueba con otra búsqueda o <a href="#" id="emptyWa">pregúntanos por WhatsApp</a>; podemos conseguirlo.</p>
+      </div>
+    </section>
+
+    <section class="section steps-wrap" id="como-comprar">
+      <h2 class="section__title">Cómo <em>comprar</em></h2>
+      <ol class="steps">
+        <li><span>01</span><h3>Elige</h3><p>Escoge tus perfumes y la presentación: 5 ml o 10 ml.</p></li>
+        <li><span>02</span><h3>Agrega</h3><p>Súmalos al carrito. Guarda en favoritos los que quieras probar después.</p></li>
+        <li><span>03</span><h3>Envía</h3><p>Manda tu pedido por WhatsApp con un clic; te confirmamos disponibilidad y envío.</p></li>
+        <li><span>04</span><h3>Disfruta</h3><p>Recibe tu decant y descubre tu nueva fragancia favorita.</p></li>
+      </ol>
+      <ul class="perks">
+        <li>Productos 100% originales</li>
+        <li>Ideal para regalar</li>
+        <li>Envíos a todo el país</li>
+        <li>Calidad premium garantizada</li>
+      </ul>
+    </section>
+
+    <section class="section" id="preguntas">
+      <h2 class="section__title">Preguntas <em>frecuentes</em></h2>
+      <div class="faq">
+        <details><summary>¿Qué es un decant?</summary><p>Es una porción del perfume original, trasvasada de su frasco a un atomizador más pequeño (5 ml o 10 ml). Así puedes usar perfumes de diseñador o nicho sin pagar el frasco completo.</p></details>
+        <details><summary>¿Los perfumes son originales?</summary><p>Sí. Todos los decants se preparan a partir de frascos 100% originales.</p></details>
+        <details><summary>¿Cuántas atomizaciones trae?</summary><p>Aproximadamente 70 atomizaciones en 5 ml y 140 en 10 ml, según el atomizador y el uso.</p></details>
+        <details><summary>¿Cómo pago y cuánto cuesta el envío?</summary><p id="faqShipping"></p></details>
+        <details><summary>¿Puedo pedir un perfume que no está en el catálogo?</summary><p>¡Claro! Escríbenos por WhatsApp y te decimos si podemos conseguirlo.</p></details>
+      </div>
+    </section>
+
+    <section class="section contact" id="contacto">
+      <h2 class="section__title">Hablemos</h2>
+      <div class="contact__grid">
+        <a class="contact__card" id="contactWa" target="_blank" rel="noopener">
+          <span class="contact__label">WhatsApp · pedidos y dudas</span>
+          <span class="contact__value" id="contactWaNum"></span>
+          <span class="contact__go">Escribir ahora →</span>
+        </a>
+        <a class="contact__card" id="contactIg" target="_blank" rel="noopener">
+          <span class="contact__label">Instagram</span>
+          <span class="contact__value" id="contactIgUser"></span>
+          <span class="contact__go">Ver perfil →</span>
+        </a>
+        <form class="contact__card contact__form" id="mailForm">
+          <span class="contact__label">Quejas y sugerencias</span>
+          <span class="contact__value contact__value--sm" id="contactMail"></span>
+          <div class="field-row">
+            <input name="nombre" placeholder="Tu nombre" required>
+            <select name="tipo" aria-label="Tipo de mensaje">
+              <option>Sugerencia</option><option>Queja</option><option>Otro</option>
+            </select>
+          </div>
+          <textarea name="mensaje" rows="3" placeholder="Cuéntanos…" required></textarea>
+          <button class="btn btn--dark btn--sm" type="submit">Enviar por correo</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="footer__brand" id="footBrand">SC <em>Fragrances</em></p>
+    <p class="muted" id="footTag"></p>
+    <p class="footer__small">© <span id="year"></span> · Los nombres y marcas pertenecen a sus respectivos dueños. Vendemos decants de frascos originales.</p>
+  </footer>
+
+  <a class="wa-float" id="waFloat" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
+    <svg viewBox="0 0 32 32"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3Zm0 23.7c-2 0-4-.6-5.7-1.6l-.4-.2-3.9 1 1-3.8-.3-.4A10.7 10.7 0 1 1 16 26.7Zm5.9-8c-.3-.2-1.9-1-2.2-1-.3-.1-.5-.2-.7.2l-1 1.2c-.2.2-.4.2-.7.1a8.8 8.8 0 0 1-4.4-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.4-1.2 1.2-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.6 5.8 5 2.1 1 3 1 4 .8.7-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5l-.7-.3Z"/></svg>
+  </a>
+
+  <!-- Detalle de producto -->
+  <dialog class="modal" id="productModal" aria-labelledby="pmName">
+    <button class="icon-btn modal__close" data-close aria-label="Cerrar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <div class="pm" id="pmBody"></div>
+  </dialog>
+
+  <!-- Paneles laterales -->
+  <div class="scrim" id="scrim" hidden></div>
+  <aside class="drawer" id="cartDrawer" aria-label="Carrito" aria-hidden="true">
+    <div class="drawer__head"><h2>Tu carrito</h2><button class="icon-btn" data-close-drawer aria-label="Cerrar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="drawer__body" id="cartItems"></div>
+    <div class="drawer__foot" id="cartFoot">
+      <div class="total"><span>Subtotal</span><strong id="cartTotal">$0</strong></div>
+      <p class="muted small" id="cartShip"></p>
+      <input id="buyerName" placeholder="Tu nombre (opcional)">
+      <input id="buyerCity" placeholder="Ciudad / Estado (opcional)">
+      <textarea id="buyerNote" rows="2" placeholder="Notas para tu pedido (opcional)"></textarea>
+      <button class="btn btn--dark btn--block" id="checkout">Enviar pedido por WhatsApp</button>
+      <button class="link-btn" id="clearCart">Vaciar carrito</button>
+    </div>
+  </aside>
+  <aside class="drawer" id="favDrawer" aria-label="Favoritos" aria-hidden="true">
+    <div class="drawer__head"><h2>Favoritos</h2><button class="icon-btn" data-close-drawer aria-label="Cerrar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="drawer__body" id="favItems"></div>
+  </aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="data/productos.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/store.js"></script>
+</body>
+</html>
