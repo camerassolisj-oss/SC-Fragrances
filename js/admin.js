@@ -5,6 +5,8 @@
   const SESSION_KEY = 'sc_admin_sesion';
 
   let data = SC.readDraft() || SC.published();
+  // Un borrador viejo puede no tener los campos nuevos de configuración
+  data.config = Object.assign({}, SC.published().config, data.config);
   let editingId = null;
   const ui = { q: '', brand: '' };
 
@@ -288,6 +290,68 @@
     toast('Contraseña actualizada. Publica productos.js para aplicarla en tu sitio.');
   });
 
+  /* ---------- Pedidos y pagos ---------- */
+  const PAY_FIELDS = ['envioGratisDesde', 'banco', 'titular', 'clabe', 'cuenta', 'tarjetaDeposito', 'instruccionesPago', 'paypalClientId'];
+  function entregaRow(e = { nombre: '', precio: 0, domicilio: true }) {
+    const d = document.createElement('div');
+    d.className = 'size-row entrega-row';
+    d.innerHTML = '<input placeholder="Nombre (Envío a domicilio)" value="' + esc(e.nombre) + '" data-ename>' +
+      '<input type="number" min="0" step="1" placeholder="Costo" value="' + esc(e.precio) + '" data-eprice>' +
+      '<label class="switch" title="Pide dirección"><input type="checkbox" data-eaddr' + (e.domicilio ? ' checked' : '') + '> Pide dirección</label>' +
+      '<button type="button" class="icon-btn" title="Quitar" data-edel><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>';
+    return d;
+  }
+  function fillPay() {
+    const f = $('#payForm');
+    f.pedidosWeb.checked = data.config.pedidosWeb !== false;
+    PAY_FIELDS.forEach(k => { f[k].value = data.config[k] == null ? '' : data.config[k]; });
+    const box = $('#entregasEdit'); box.innerHTML = '';
+    (data.config.entregas || []).forEach(e => box.appendChild(entregaRow(e)));
+    if (!box.children.length) box.appendChild(entregaRow());
+    $('#payMail').textContent = data.config.correo || '(configura tu correo en “Tienda y contacto”)';
+  }
+  $('#addEntrega').addEventListener('click', () => $('#entregasEdit').appendChild(entregaRow({ nombre: '', precio: 0, domicilio: false })));
+  $('#entregasEdit').addEventListener('click', e => {
+    const b = e.target.closest('[data-edel]'); if (!b) return;
+    if ($$('.entrega-row').length <= 1) return toast('Debe haber al menos una opción de entrega');
+    b.parentElement.remove();
+  });
+  $('#payForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const f = e.target;
+    data.config.pedidosWeb = f.pedidosWeb.checked;
+    PAY_FIELDS.forEach(k => { data.config[k] = f[k].value.trim(); });
+    data.config.envioGratisDesde = Number(data.config.envioGratisDesde) || 0;
+    data.config.entregas = $$('.entrega-row').map(r => ({
+      nombre: $('[data-ename]', r).value.trim(),
+      precio: Number($('[data-eprice]', r).value) || 0,
+      domicilio: $('[data-eaddr]', r).checked
+    })).filter(x => x.nombre);
+    const clabe = data.config.clabe.replace(/\D/g, '');
+    if (data.config.clabe && clabe.length !== 18) toast('Ojo: la CLABE debe tener 18 dígitos');
+    persist(); fillPay();
+    toast('Pedidos y pagos guardados');
+  });
+  $('#testMail').addEventListener('click', async e => {
+    const to = data.config.correo;
+    if (!to) return toast('Primero configura tu correo en “Tienda y contacto”');
+    e.target.disabled = true;
+    try {
+      const r = await fetch('https://formsubmit.co/ajax/' + encodeURIComponent(to), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ _subject: 'Pedido de prueba · ' + (data.config.tienda || 'Tienda'), _template: 'table', _captcha: 'false', Mensaje: 'Si ves este correo, los avisos de pedidos funcionan.' })
+      });
+      const j = await r.json().catch(() => ({}));
+      alert(j.success === true || j.success === 'true'
+        ? 'Listo: revisa tu correo, te llegó el pedido de prueba. Los avisos ya funcionan.'
+        : 'Enviado. Revisa ' + to + ' (y Spam): si es la primera vez, FormSubmit te manda un correo para activar; pulsa “Activate Form” y vuelve a probar.');
+    } catch (err) {
+      alert('No se pudo conectar con FormSubmit. Revisa tu internet e intenta de nuevo.');
+    }
+    e.target.disabled = false;
+  });
+
   /* ---------- Publicar / respaldos ---------- */
   function fileText() {
     return '/* Datos de la tienda. Edítalos desde admin.html y reemplaza este archivo con el que descargues. */\n' +
@@ -347,7 +411,7 @@
     $('#aLogo').innerHTML = esc(first) + (rest.length ? ' <em>' + esc(rest.join(' ')) + '</em>' : '');
   }
 
-  function refreshAll() { fillBrands(); renderList(); fillConfig(); renderStatus(); setLogo(); }
+  function refreshAll() { fillBrands(); renderList(); fillConfig(); fillPay(); renderStatus(); setLogo(); }
 
   function start() {
     $('#login').hidden = true; $('#app').hidden = false;

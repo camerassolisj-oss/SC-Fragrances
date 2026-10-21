@@ -191,9 +191,7 @@
 
   function checkout() {
     if (!cart.length) return;
-    const name = $('#buyerName').value.trim();
-    const city = $('#buyerCity').value.trim();
-    const note = $('#buyerNote').value.trim();
+    const name = '', city = '', note = '';
     const total = cart.reduce((a, i) => a + linePrice(i) * i.qty, 0);
     const lines = cart.map(i => {
       const p = byId[i.id];
@@ -357,6 +355,14 @@
     location.href = 'mailto:' + (cfg.correo || '') + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     toast('Abriendo tu app de correo…');
   });
+
+  /* ---------- API para la compra directa (checkout.js) ---------- */
+  window.SCStore = {
+    cfg, byId, fmt, toast, linePrice, closeDrawers,
+    getCart: () => cart.slice(),
+    clearCart() { cart = []; saveCart(); },
+    whatsappOrder: checkout
+  };
 
   /* ---------- Inicio ---------- */
   applyConfig();

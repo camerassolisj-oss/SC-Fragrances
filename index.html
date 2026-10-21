@@ -188,10 +188,9 @@
     <div class="drawer__foot" id="cartFoot">
       <div class="total"><span>Subtotal</span><strong id="cartTotal">$0</strong></div>
       <p class="muted small" id="cartShip"></p>
-      <input id="buyerName" placeholder="Tu nombre (opcional)">
-      <input id="buyerCity" placeholder="Ciudad / Estado (opcional)">
-      <textarea id="buyerNote" rows="2" placeholder="Notas para tu pedido (opcional)"></textarea>
-      <button class="btn btn--dark btn--block" id="checkout">Enviar pedido por WhatsApp</button>
+      <button class="btn btn--dark btn--block" id="buyHere">Finalizar compra</button>
+      <button class="btn btn--ghost btn--block" id="checkout">Pedir por WhatsApp</button>
+      <p class="muted small cart-pay" id="cartPay"></p>
       <button class="link-btn" id="clearCart">Vaciar carrito</button>
     </div>
   </aside>
@@ -200,10 +199,17 @@
     <div class="drawer__body" id="favItems"></div>
   </aside>
 
+  <!-- Compra directa -->
+  <dialog class="modal co-modal" id="checkoutModal" aria-label="Finalizar compra">
+    <button class="icon-btn modal__close" data-close aria-label="Cerrar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <div class="co" id="coBody"></div>
+  </dialog>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="data/productos.js"></script>
   <script src="js/common.js"></script>
   <script src="js/store.js"></script>
+  <script src="js/checkout.js"></script>
 </body>
 </html>

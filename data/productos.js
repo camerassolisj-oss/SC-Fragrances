@@ -12,7 +12,28 @@ window.SC_DATA = {
   "simbolo": "$",
   "envio": "Envíos a todo el país. El costo de envío se confirma por WhatsApp.",
   "aviso": "Envíos a todo el país · Productos 100% originales · Ideal para regalar",
-  "passwordHash": "d6187b3c677bb7ba6dc74bff4c98b2c44c9c77c93daea88cd7dbf4094998bce0"
+  "passwordHash": "d6187b3c677bb7ba6dc74bff4c98b2c44c9c77c93daea88cd7dbf4094998bce0",
+  "pedidosWeb": true,
+  "entregas": [
+   {
+    "nombre": "Envío a domicilio",
+    "precio": 0,
+    "domicilio": true
+   },
+   {
+    "nombre": "Entrega en persona (acordamos el punto)",
+    "precio": 0,
+    "domicilio": false
+   }
+  ],
+  "envioGratisDesde": 0,
+  "paypalClientId": "",
+  "banco": "",
+  "titular": "",
+  "clabe": "",
+  "cuenta": "",
+  "tarjetaDeposito": "",
+  "instruccionesPago": "Apartamos tu pedido por 24 horas. En cuanto recibamos tu comprobante lo confirmamos y lo enviamos."
  },
  "productos": [
   {

@@ -54,3 +54,22 @@ En **Publicar y respaldos** puedes exportar tu catálogo como `.json` e importar
 ## Probarla en tu computadora
 
 Abre `index.html` con doble clic. Para que el panel funcione igual que en internet, puedes correr `python3 -m http.server` dentro de la carpeta y entrar a `http://localhost:8000`.
+
+## Compra directa y pagos
+
+Además del pedido por WhatsApp, tus clientes pueden comprar en la página con **Finalizar compra**:
+
+1. Escriben sus datos (nombre, WhatsApp y correo) y su dirección, y eligen cómo recibir el pedido.
+2. Pagan con **tarjeta de débito o crédito** (lo procesa PayPal y no necesitan cuenta) o eligen **depósito o transferencia**. Si eligen depósito, la página les muestra tus datos bancarios y un botón para mandarte el comprobante por WhatsApp.
+3. A ti te llega un **correo con el pedido**. El asunto dice ✅ PAGADO o 🕓 Pendiente de pago, y el correo incluye el folio, los productos, el total y los datos del cliente. El cliente también recibe un correo de confirmación.
+
+Para activarlo, entra a `admin.html` → **Pedidos y pagos**:
+- Pon el costo de cada opción de entrega.
+- Llena tus datos bancarios (banco, titular, CLABE y/o tarjeta para depósito).
+- Para cobrar con tarjeta, pega el **Client ID (Live)** de tu cuenta PayPal Empresas. Las instrucciones están en el panel.
+- Pulsa **Enviar pedido de prueba / activar**. Luego abre el correo de FormSubmit y pulsa **Activate Form**. Esto se hace una sola vez.
+- Descarga `productos.js` y súbelo a `data/`.
+
+El botón **Finalizar compra** aparece en cuanto hay al menos un método de pago configurado.
+
+> **Importante:** antes de enviar un pedido pagado con tarjeta, confirma en tu cuenta de PayPal que el pago llegó por el monto correcto, con el mismo folio. En pedidos por depósito, espera el comprobante y revisa tu banco.

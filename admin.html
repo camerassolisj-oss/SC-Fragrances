@@ -43,6 +43,7 @@
     <nav class="tabs" role="tablist">
       <button class="tab is-active" data-tab="productos">Perfumes</button>
       <button class="tab" data-tab="config">Tienda y contacto</button>
+      <button class="tab" data-tab="pagos">Pedidos y pagos</button>
       <button class="tab" data-tab="publicar">Publicar y respaldos</button>
     </nav>
 
@@ -86,6 +87,43 @@
         <label class="field"><span>Repítela</span><input type="password" id="npw2" autocomplete="new-password" minlength="6" required></label>
         <div class="full row-actions"><button class="btn btn--dark" type="submit">Actualizar contraseña</button></div>
       </form>
+    </section>
+
+    <!-- Pedidos y pagos -->
+    <section data-panel="pagos" hidden>
+      <form class="panel form" id="payForm">
+        <h2 class="full">Compra directa en la página</h2>
+        <p class="full">Tus clientes pueden pagar en la tienda sin pasar por WhatsApp; el botón de WhatsApp sigue disponible. Cada pedido te llega por correo a <strong id="payMail"></strong>. El botón “Finalizar compra” aparece cuando llenas al menos un método de pago.</p>
+        <label class="switch full"><input type="checkbox" name="pedidosWeb"> Activar compra directa</label>
+
+        <h2 class="full" style="margin-top:12px">Entrega</h2>
+        <div class="field full"><span>Opciones de entrega y su costo</span>
+          <div class="sizes-edit" id="entregasEdit"></div>
+          <button type="button" class="link-btn" id="addEntrega" style="align-self:flex-start;margin-top:4px">+ Agregar opción de entrega</button>
+          <small>Marca “Pide dirección” en las opciones de envío a domicilio. Si pones 0, se muestra “Sin costo”.</small>
+        </div>
+        <label class="field"><span>Envío gratis a partir de</span><input name="envioGratisDesde" type="number" min="0" step="1"><small>Déjalo en 0 si no aplica.</small></label>
+
+        <h2 class="full" style="margin-top:12px">Depósito o transferencia</h2>
+        <label class="field"><span>Banco</span><input name="banco" placeholder="Ej. BBVA"></label>
+        <label class="field"><span>Titular de la cuenta</span><input name="titular"></label>
+        <label class="field"><span>CLABE (18 dígitos)</span><input name="clabe" inputmode="numeric" maxlength="22"></label>
+        <label class="field"><span>Número de cuenta (opcional)</span><input name="cuenta" inputmode="numeric"></label>
+        <label class="field"><span>Tarjeta para depósito en OXXO o ventanilla (opcional)</span><input name="tarjetaDeposito" inputmode="numeric" maxlength="23"></label>
+        <label class="field full"><span>Instrucciones después del pedido</span><textarea name="instruccionesPago" rows="2"></textarea></label>
+
+        <h2 class="full" style="margin-top:12px">Tarjeta de débito o crédito</h2>
+        <p class="full">Los pagos con tarjeta los procesa <strong>PayPal</strong>. Tus clientes pagan con su tarjeta sin necesitar una cuenta de PayPal, y el dinero llega a tu cuenta PayPal; desde ahí lo pasas a tu banco. Para conseguir tu <em>Client ID</em>: crea una cuenta <strong>PayPal Empresas</strong> en paypal.com/mx → entra a <strong>developer.paypal.com</strong> → <em>Apps &amp; Credentials</em> → pestaña <strong>Live</strong> → <em>Create App</em> → copia el <strong>Client ID</strong> (nunca el “Secret”).</p>
+        <label class="field full"><span>PayPal Client ID (Live)</span><input name="paypalClientId" placeholder="AXxx…" autocomplete="off" spellcheck="false"><small>Déjalo vacío para no ofrecer pago con tarjeta.</small></label>
+
+        <div class="full row-actions"><button class="btn btn--dark" type="submit">Guardar</button></div>
+      </form>
+
+      <div class="panel">
+        <h2>Avisos de pedidos por correo</h2>
+        <p>Los pedidos llegan a tu correo a través de FormSubmit, un servicio gratuito. <strong>Hay que activarlo una sola vez:</strong> pulsa el botón y abre el correo de FormSubmit que te llegará (revisa también Spam). Ahí pulsa <em>Activate Form</em>. Desde entonces cada pedido te llegará con los datos del cliente, los productos, el total y si ya pagó.</p>
+        <div class="row-actions"><button class="btn btn--ghost" id="testMail" type="button">Enviar pedido de prueba / activar</button></div>
+      </div>
     </section>
 
     <!-- Publicar -->
